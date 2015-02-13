@@ -1,0 +1,116 @@
+<?php
+$tableParamsOpcodeInfoDirectives = array(
+    'tableId' => 'table-opcode-info-directives',
+    'tableWidth' => '4'
+);
+$tableParamsOpcodeInfoVersion = array(
+    'tableId' => 'table-opcode-info-version',
+    'tableWidth' => '4'
+);
+$tableParamsOpcodeInfoBlacklist = array(
+    'tableId' => 'table-opcode-info-blacklist',
+    'tableWidth' => '4'
+);
+?>
+
+<ul class="tabs">
+	<li><input type="radio" name="opcache-info-tabs"
+		id="tab-opcache-info-statistics" checked /> <label
+		for="tab-opcache-info-statistics">Statistics</label>
+		<div id="tab-content-opcache-info-statistics" class="tab-content">
+			<div
+				style="width: 300px; height: 200px; margin: 10px; display: inline-block;">
+				<div id="container-chart-hit-rate"
+					style="width: 300px; height: 200px; float: left"></div>
+			</div>
+			<div
+				style="margin-top: 35px; display: inline-block; vertical-align: top;">
+				<div style="float: left; width: 50px;">Hits:</div>
+				<div id="value-opcache-statistics-hits" style="float: left;">234</div>
+				<br />
+				<div style="float: left; width: 50px;">Misses:</div>
+				<div id="value-opcache-statistics-misses" style="float: left;">234</div>
+				<br />
+				<div style="float: left; width: 130px;">Num Cached Scripts:</div>
+				<div id="value-opcache-statistics-num-cached-scripts"
+					style="float: left;">234</div>
+				<br />
+				<div style="float: left; width: 130px;">Num Cached Keys:</div>
+				<div id="value-opcache-statistics-num-cached-keys"
+					style="float: left;">234</div>
+				<br />
+				<div style="float: left; width: 130px;">Max Cached Keys:</div>
+				<div id="value-opcache-statistics-max-cached-keys"
+					style="float: left;">234</div>
+				<br />
+			</div>
+		</div></li>
+
+	<li><input type="radio" name="opcache-info-tabs"
+		id="tab-opcache-info-memory" /> <label for="tab-opcache-info-memory">Memory</label>
+		<div id="tab-content-opcache-info-memory" class="tab-content">
+			<div style="min-width: 310px; margin: 10px; display: inline-block;">
+				<div id="container-chart-memory"
+					style="margin: 0 auto; margin-top: -130px; min-width: 310px; max-width: 600px; float: left"></div>
+			</div>
+		</div></li>
+
+	<li><input type="radio" name="opcache-info-tabs"
+		id="tab-opcache-info-directives" /> <label
+		for="tab-opcache-info-directives">Directives</label>
+		<div id="tab-content-opcache-info-directives" class="tab-content">
+    		<?php echo $this->zrayTable($tableParamsOpcodeInfoDirectives); ?> 
+    	</div></li>
+	<li><input type="radio" name="opcache-info-tabs"
+		id="tab-opcache-info-version" /> <label for="tab-opcache-info-version">Version</label>
+		<div id="tab-content-info-version" class="tab-content">
+    	    <?php echo $this->zrayTable($tableParamsOpcodeInfoVersion); ?>	
+    	</div></li>
+	<li><input type="radio" name="opcache-info-tabs"
+		id="tab-opcache-info-blacklist" /> <label
+		for="tab-opcache-info-blacklist">Blacklist</label>
+		<div id="tab-content-info-blacklist" class="tab-content">
+            <?php echo $this->zrayTable($tableParamsOpcodeInfoBlacklist); ?>
+        </div></li>
+</ul>
+
+<script type="text/javascript">
+
+var storageOpcodeInfoStatistics;
+var storageOpcodeInfoMemory;
+var storageOpcodeInfoDirectives;
+var storageOpcodeInfoVersion;
+var storageOpcodeInfoBlacklist;
+
+(function() {
+    storageOpcodeInfoStatistics = zray.getStorage('opcodeInfoStatistics');
+    storageOpcodeInfoMemory = zray.getStorage('opcodeInfoMemory');
+    storageOpcodeInfoDirectives = zray.getStorage('opcodeInfoDirectives');
+    storageOpcodeInfoVersion = zray.getStorage('opcodeInfoVersion');
+    storageOpcodeInfoBlacklist = zray.getStorage('opcodeInfoBlacklist');
+
+	var tableTabDirectives = zray.createTreeTable(storageOpcodeInfoDirectives, jQuery('#<?php echo $tableParamsOpcodeInfoDirectives['tableId']; ?>'));
+	var tableTabVersion = zray.createTreeTable(storageOpcodeInfoVersion, jQuery('#<?php echo $tableParamsOpcodeInfoVersion['tableId']; ?>'));
+	var tableTabBlacklist = zray.createTreeTable(storageOpcodeInfoBlacklist, jQuery('#<?php echo $tableParamsOpcodeInfoBlacklist['tableId']; ?>'));
+
+    zray.registerDataHandler('opcache', 'opStatistics', function(extensionData, requestData) {
+        storageOpcodeInfoStatistics.setData(extensionData);
+    });	
+    zray.registerDataHandler('opcache', 'opMemory', function(extensionData, requestData) {
+        storageOpcodeInfoMemory.setData(extensionData);
+    });
+	zray.registerDataHandler('opcache', 'opDirectives', function(extensionData, requestData) {
+		storageOpcodeInfoDirectives.setData(extensionData);
+	});
+    zray.registerDataHandler('opcache', 'opVersion', function(extensionData, requestData) {
+        storageOpcodeInfoVersion.setData(extensionData);
+    });
+    zray.registerDataHandler('opcache', 'opBlacklist', function(extensionData, requestData) {
+        storageOpcodeInfoBlacklist.setData(extensionData);
+    });
+})();
+
+var chartHitRate; 
+var chartMemory; 
+<?php echo file_get_contents(__DIR__ . '/../charts.js'); ?>
+</script>
