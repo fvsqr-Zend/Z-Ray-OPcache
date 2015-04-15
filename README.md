@@ -24,6 +24,10 @@ Setup
 -----
 As a Z-Ray extension is enabled after a specified function is called, one has to modify the zray.php so that it fits to the appropriate application. By default the OPcache extension is enabled after calling session_start() function. If the application doesn't call this function please change zray.php in line 12 accordingly with a a function name which is ideally called on every request.
 
+Restrictions
+----
+Currently the MariaDB extension only supports PDO usage.
+
 More Info
 ------------
 
