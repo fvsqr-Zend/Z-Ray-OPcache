@@ -1,0 +1,14 @@
+{
+  "name" : "opcache",
+  "display_name" : "OPcache",
+  "version" : "1.0.1",
+  "type": ["zray"],
+  "logo": "logo.gif",
+  "eula": "LICENSE.txt",
+  "readme": "README.txt",
+  "dependencies": {
+    "plugin": {
+        "min": "1.0.0"
+    }
+  }
+}

@@ -9,16 +9,6 @@ In the status tab one gets useful information about the OPcache memory usage as 
 The Scripts tab will display all cached scripts plus creation and last used time information.
 
 
-Installation
-------------
-
-Copy the files of the repository to the following location:
-
-Example: (assuming default install directory for Zend Server)
-
-* Linux: `/usr/local/zend/var/zray/extensions/OPcache` 
-
-* Windows: `C:\Program Files (x86)\Zend\ZendServer\data\zray\extensions\OPcache`
 
 Setup
 -----

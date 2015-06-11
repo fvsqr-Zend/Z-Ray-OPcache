@@ -23,21 +23,22 @@ jQuery.getScript(
 function loadCharts() {
 	buildChartHitRate();
 	data = storageOpcodeInfoStatistics.getData()[0];
-	console.log(data);
-	jQuery('#value-opcache-statistics-hits').text(data.hits);
-	jQuery('#value-opcache-statistics-misses').text(data.misses);
-	jQuery('#value-opcache-statistics-num-cached-scripts').text(
-			data.num_cached_scripts);
-	jQuery('#value-opcache-statistics-num-cached-keys').text(
-			data.num_cached_keys);
-	jQuery('#value-opcache-statistics-max-cached-keys').text(
-			data.max_cached_keys);
-	setTimeout(function() {
-		point = chartHitRate.series[0].points[0];
-		point.update(Math.round(data.opcache_hit_rate * 10) / 10);
-	}, 1500);
-
-	buildChartMemory();
+	if (data != undefined) {
+		jQuery('#value-opcache-statistics-hits').text(data.hits);
+		jQuery('#value-opcache-statistics-misses').text(data.misses);
+		jQuery('#value-opcache-statistics-num-cached-scripts').text(
+				data.num_cached_scripts);
+		jQuery('#value-opcache-statistics-num-cached-keys').text(
+				data.num_cached_keys);
+		jQuery('#value-opcache-statistics-max-cached-keys').text(
+				data.max_cached_keys);
+		setTimeout(function() {
+			point = chartHitRate.series[0].points[0];
+			point.update(Math.round(data.opcache_hit_rate * 10) / 10);
+		}, 1500);
+	
+		buildChartMemory();
+	}
 }
 
 function buildChartHitRate() {
