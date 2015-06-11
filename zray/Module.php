@@ -11,8 +11,6 @@ class Module extends \ZRay\ZRayModule
                 'name' => 'opcache'
             ),
             'defaultPanels' => array(
-                'multiplyGeneralTree' => false,
-                'stats' => false,
                 'opBlacklist' => false,
                 'opDirectives' => false,
                 'opVersion' => false,
