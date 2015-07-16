@@ -1,7 +1,7 @@
 {
   "name" : "opcache",
   "display_name" : "OPcache",
-  "version" : "1.0.3",
+  "version" : "1.0.4",
   "type": ["zray"],
   "logo": "logo.gif",
   "eula": "LICENSE.txt",
