@@ -6,9 +6,6 @@ class OPcache
 
     private $shutdownCalled = false;
 
-    public function startup($context, &$storage)
-    {}
-
     public function shutdown($context, &$storage)
     {
         if ($this->shutdownCalled)
