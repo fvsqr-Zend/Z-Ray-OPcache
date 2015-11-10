@@ -1,17 +1,17 @@
 jQuery.getScript(
-	"http://code.highcharts.com/adapters/standalone-framework.js",
+	"//code.highcharts.com/adapters/standalone-framework.js",
 	function(data, textStatus, jqxhr) {
 		jQuery.getScript(
-			"http://code.highcharts.com/highcharts.js",
+			"//code.highcharts.com/highcharts.js",
 			function(data, textStatus, jqxhr) {
 				jQuery.getScript(
-					"http://code.highcharts.com/highcharts-more.js",
+					"//code.highcharts.com/highcharts-more.js",
 					function(data, textStatus, jqxhr) {
 						jQuery.getScript(
-							"http://code.highcharts.com/modules/solid-gauge.js",
+							"//code.highcharts.com/modules/solid-gauge.js",
 							function(data, textStatus, jqxhr) {
 								jQuery.getScript(
-									"http://code.highcharts.com/modules/exporting.js",
+									"//code.highcharts.com/modules/exporting.js",
 									function(data, textStatus, jqxhr) {
 										loadCharts();
 									});
