@@ -16,8 +16,6 @@ class OPcache
         $status = opcache_get_status();
         $config = opcache_get_configuration();
         
-        error_log(var_export($status, true), 3, '/tmp/oc.log');
-        
         $storage['opMemoryUsage'][] = $status['memory_usage'];
         $storage['opInternedStringsUsage'][] = $status['interned_strings_usage'];
         $storage['opStatistics'][] = $status['opcache_statistics'];
@@ -27,6 +25,16 @@ class OPcache
         
         if ($scripts = $status['scripts']) {
         
+            foreach ($scripts as &$script) {
+                $zendPath = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+                if (strpos($script['full_path'], $zendPath) !== false) {
+                    $script['group'] = 'Z-Ray / Zend';
+                }
+                else {
+                    $script['group'] = 'App';
+                }
+            }
+            
             array_walk($scripts, function (&$item, $key)
             {
                 $item = array_merge(array(
@@ -34,7 +42,7 @@ class OPcache
                 ), array(
                     'Full Path' => $item['full_path']
                 ), $item);
-                $item['memory Consumption'] = round($item['memory_consumption'] / 1024) . " KB ({$item['memory_consumption']} B)";
+                $item['memory Consumption'] = round($item['memory_consumption'] / 1024) . "&nbsp;KB ({$item['memory_consumption']}&nbsp;B)";
                 $item['Last Used'] = $item['last_used'];
                 $item['Last Used Timestamp'] = $item['last_used_timestamp'];
                 $item['created'] = date("D M j G:i:s Y", $item['timestamp']);

@@ -1,0 +1,124 @@
+<?php 
+$tableParams = array(
+    'tableId'    => 'script-list-container-id',
+    'tableWidth' => '3', 
+    'summaryTableId' => 'script-list-summary-table-id',
+    'summaryTableWidth' => '1',
+);
+
+echo $this->zrayTable($tableParams);
+?>
+
+<script type="text/javascript">
+var storage = zray.getStorage('scriptList');
+var maintable = zray.createTable(storage, 
+jQuery('#<?php echo $tableParams['tableId']; ?>'));
+
+var columns = [
+    {
+        label: 'Script',   
+        propertyName: 'name',
+        sortable:   true,    
+    },
+    {
+        label: 'Full Path',   
+        propertyName: 'Full Path',   
+        width: '200px',
+        sortable:   true, 
+    },
+    {
+        label: 'App Group',
+        propertyName: 'group',
+        sortable:   true, 
+    },
+    {
+        label: 'Memory Consumption',
+        propertyName: 'memory Consumption',
+        width: '90px',
+        sortable:   true, 
+    },
+    {
+        label: 'Hits',
+        propertyName: 'hits',
+        width: '60px',
+        sortable:   true, 
+    },
+    {
+        label: 'Last Used',
+        propertyName: 'Last Used',
+        width: '110px',
+    },
+    {
+        label: 'Last Used Timestamp',
+        propertyName: 'Last Used Timestamp',
+        width: '95px',
+        sortable:   true, 
+    },
+    {
+        label: 'Created',
+        propertyName: 'created',
+        width: '110px',
+    },
+    {
+        label: 'Created Timestamp',
+        propertyName: 'created Timestamp',
+        width: '95px',
+        sortable:   true, 
+    }
+];
+maintable.setColumns(columns);
+
+var summaryTable = zray.createSummaryTable(storage, jQuery('#<?php echo $tableParams['summaryTableId']; ?>'));
+
+summaryTable.setColumns([
+    {
+        label: 'App Group',
+        propertyName: 'group'
+    },
+    {
+        label: '',
+        propertyName: 'group',
+        getHtml: function(value, record) {
+            return summaryTable.createCheckboxColumn(value, record, summaryTable);
+         }
+    },
+    {
+        label: '',
+        propertyName: 'count'
+    }
+]);
+
+summaryTable.setFilterColumn('group');
+
+summaryTable.setUpdateCallback(function (data) {
+    if (typeof data === 'undefined' || data.length == 0) return [];
+    
+    var aggregated = {};
+    $zendDevBar.each(data, function(key, item){
+        if (aggregated[item.group]) {
+            aggregated[item.group]++;
+        } else {
+            aggregated[item.group] = 1;
+        }
+    });
+    if (Object.keys(aggregated).length == 0) {
+        return [];
+    }
+    
+    var normalized = [];
+    normalized.push({'group': 'All', 'count': jQuery.map(aggregated, function(v){return v}).reduce(function(acc, item){return acc += item})});
+    
+    return normalized.concat($zendDevBar.map(aggregated, function(count, group){
+        return {'group': group, 'count': count};
+    }));
+});
+
+zray.createPager(storage, jQuery('#<?php echo $params['pagerId']; ?>'));
+zray.createSearch(storage, jQuery('#<?php echo $params['searchId']; ?>'), maintable);
+
+zray.registerDataHandler('opcache', 'opcacheScripts',
+    function(extensionData, requestData) {
+        storage.setData(extensionData);
+    }
+);
+</script>

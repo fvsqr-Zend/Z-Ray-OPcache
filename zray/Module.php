@@ -16,7 +16,8 @@ class Module extends \ZRay\ZRayModule
                 'opVersion' => false,
                 'opInternedStringsUsage' => false,
                 'opMemoryUsage' => false,
-                'opStatistics' => false
+                'opStatistics' => false,
+                'opcacheScripts' => false
             ),
             'panels' => array(
                 'opcacheStatus' => array(
@@ -27,6 +28,16 @@ class Module extends \ZRay\ZRayModule
                     'resources' => array(
                         'chart' => 'chart.js'
                     )
+                ),
+                'opcacheScriptList' => array(
+                    'display' => true,
+                    'logo' => 'logo.png',
+                    'menuTitle' => 'OPcache Script List',
+                    'panelTitle' => 'OPcache Script List',
+                    'resources' => array(
+                    ),
+                    'searchId'  => 'script-list-pager-id', 
+                    'pagerId'     => 'script-list-search-id', 
                 )
             )
         );
